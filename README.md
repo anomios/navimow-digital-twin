@@ -213,11 +213,11 @@ Danach die interaktive Anmeldung starten:
   /opt/fhem/navimow-python/navimow_private_account.py \
   --interactive \
   --output /opt/fhem/navimow-python/cache/navimow_private_session.json \
-  --fhem-device NavimowMower
+  --fhem-device NavimowModell
 ```
 
-`NavimowMower` ist nur ein Beispiel. Wer sein FHEM-Device später anders nennen
-möchte, ersetzt den Namen entsprechend.
+`NavimowModell` ist ein Platzhalter für den gewünschten FHEM-Device-Namen.
+Als konkretes Beispiel kann z. B. `i210Pro` verwendet werden.
 
 Während der Anmeldung werden interaktiv abgefragt:
 
@@ -265,6 +265,17 @@ Standardwerte des Release-Standes:
 --region fra
 --host navimow-fra.ninebot.com
 --language de
+```
+
+Der FHEM-Device-Name sollte immer explizit angegeben werden, zum Beispiel:
+
+```text
+--fhem-device NavimowModell
+```
+
+Konkretes Beispiel:
+
+```text
 --fhem-device i210Pro
 ```
 
@@ -275,16 +286,16 @@ Für die meisten Installationen genügt der oben gezeigte Standardweg.
 Erst nach erfolgreicher Session-Erzeugung:
 
 ```text
-define NavimowMower Navimow
+define NavimowModell Navimow
 ```
 
 Danach mindestens die Pfade setzen:
 
 ```text
-attr NavimowMower bridgePython /opt/fhem/navimow-python/venv/bin/python
-attr NavimowMower bridgeScript /opt/fhem/navimow-python/navimow_bridge.py
-attr NavimowMower privateClientPath /opt/fhem/navimow-python
-attr NavimowMower privateSessionFile /opt/fhem/navimow-python/cache/navimow_private_session.json
+attr NavimowModell bridgePython /opt/fhem/navimow-python/venv/bin/python
+attr NavimowModell bridgeScript /opt/fhem/navimow-python/navimow_bridge.py
+attr NavimowModell privateClientPath /opt/fhem/navimow-python
+attr NavimowModell privateSessionFile /opt/fhem/navimow-python/cache/navimow_private_session.json
 ```
 
 Je nach verwendetem Zugangsweg können zusätzlich relevant sein:
@@ -307,9 +318,9 @@ privateDeviceId
 ### Ersten Funktionstest durchführen
 
 ```text
-get NavimowMower oauth
-get NavimowMower versions
-set NavimowMower restartBridge
+get NavimowModell oauth
+get NavimowModell versions
+set NavimowModell restartBridge
 ```
 
 Ein gesunder Zustand sieht typischerweise so aus:
@@ -440,9 +451,9 @@ set <NAME> start <all|ZONE> <resume|restart>
 Beispiele:
 
 ```text
-set NavimowMower start all resume
-set NavimowMower start all restart
-set NavimowMower start Vorgarten resume
+set NavimowModell start all resume
+set NavimowModell start all restart
+set NavimowModell start Vorgarten resume
 ```
 
 Zonen können anhand der bekannten Karten-Zonen aufgelöst werden. Für FHEMWEB werden dynamische Auswahlwerte erzeugt.
@@ -486,37 +497,37 @@ get <NAME> events [1|5|10|20|50|100]
 Aktuellen Status abrufen:
 
 ```text
-get NavimowMower status
+get NavimowModell status
 ```
 
 Geräteliste abrufen:
 
 ```text
-get NavimowMower devices
+get NavimowModell devices
 ```
 
 OAuth-Konfiguration prüfen:
 
 ```text
-get NavimowMower oauth
+get NavimowModell oauth
 ```
 
 Softwarestände anzeigen:
 
 ```text
-get NavimowMower versions
+get NavimowModell versions
 ```
 
 Letzte 20 Timeline-Einträge:
 
 ```text
-get NavimowMower timeline 20
+get NavimowModell timeline 20
 ```
 
 Letzte 20 semantischen Events:
 
 ```text
-get NavimowMower events 20
+get NavimowModell events 20
 ```
 
 ## FHEMWEB-Liveansicht
@@ -600,10 +611,11 @@ Ausgabe des folgenden Diagnoseblocks vollständig mitliefern.
 
 ### Diagnoseblock
 
-Vor dem Ausführen nur den Namen des eigenen FHEM-Navimow-Devices anpassen:
+Vor dem Ausführen nur den Namen des eigenen FHEM-Navimow-Devices anpassen.
+Beispiel für einen Navimow i210 Pro:
 
 ```bash
-DEVICE=NavimowMower
+DEVICE=i210Pro
 
 echo "=== SYSTEM ==="
 uname -a
@@ -685,8 +697,8 @@ grep -Ei \
     -e 's/(Authorization:[[:space:]]*Bearer[[:space:]]+)[^[:space:]]+/\1<REDACTED>/Ig'
 ```
 
-`NavimowMower` muss dabei durch den Namen des eigenen FHEM-Devices ersetzt
-werden.
+`DEVICE=i210Pro` ist nur ein Beispiel. Der Wert muss dem Namen des eigenen
+FHEM-Navimow-Devices entsprechen.
 
 ### Was bei einer Supportanfrage zusätzlich hilfreich ist
 
